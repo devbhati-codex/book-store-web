@@ -18,6 +18,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+
     cart = models.ForeignKey(
         Cart,
         on_delete=models.CASCADE,
@@ -32,6 +33,9 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(
         default=1
     )
+
+    class Meta:
+        unique_together = ('cart', 'book')
 
     def __str__(self):
         return f"{self.book.title} ({self.quantity})"

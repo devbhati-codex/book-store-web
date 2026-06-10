@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+</head>
+<body>
+
+<h1>My Orders</h1>
+
+{% for order in orders %}
+
+<h2>
+    {{ order.order_number }}
+</h2>
+
+<p>
+    Total:
+    ₹{{ order.total_price }}
+</p>
+
+<p>
+    Status:
+    {{ order.status }}
+</p>
+
+<p>
+    Payment:
+    {{ order.payment_method }}
+</p>
+
+<p>
+    Date:
+    {{ order.created_at }}
+</p>
+
+<hr>
+
+{% for item in order.items.all %}
+
+<img
+    src="{{ item.book.image.url }}"
+    width="120"
+>
+
+<p>
+    {{ item.book.title }}
+</p>
+
+<p>
+    Qty:
+    {{ item.quantity }}
+</p>
+
+{% endfor %}
+
+<hr><hr>
+
+{% empty %}
+
+<p>
+    No Orders Found
+</p>
+
+{% endfor %}
+
+</body>
+</html>

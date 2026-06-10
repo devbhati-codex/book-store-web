@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+
+<h1>Checkout</h1>
+
+<h2>Order Summary</h2>
+
+{% for item in cart_items %}
+
+<p>
+    {{ item.book.title }}
+    ×
+    {{ item.quantity }}
+</p>
+
+{% endfor %}
+
+<h3>Total: ₹{{ total }}</h3>
+
+<hr>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Place Order
+    </button>
+
+</form>
+
+</body>
+</html>

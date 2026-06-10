@@ -41,12 +41,27 @@ class Order(models.Model):
     )
 
     # Shipping Details
-    full_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
+    full_name = models.CharField(
+        max_length=100
+    )
+
+    phone = models.CharField(
+        max_length=10
+    )
+
     address = models.TextField()
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    pincode = models.CharField(max_length=10)
+
+    city = models.CharField(
+        max_length=100
+    )
+
+    state = models.CharField(
+        max_length=100
+    )
+
+    pincode = models.CharField(
+        max_length=6
+    )
 
     payment_method = models.CharField(
         max_length=10,
