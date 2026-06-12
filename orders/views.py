@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from cart.models import Cart
 from .models import Order, OrderItem
+from django.contrib.auth.decorators import login_required
 from .forms import CheckoutForm
 
 
@@ -19,10 +20,13 @@ def checkout_view(request):
     total = 0
 
     for item in cart_items:
-        total += (
+
+        item.subtotal = (
             item.book.price *
             item.quantity
         )
+
+        total += item.subtotal
 
     if request.method == 'POST':
 
@@ -58,6 +62,9 @@ def checkout_view(request):
                     quantity=item.quantity,
                     price_at_time=item.book.price
                 )
+
+                item.book.stock -= item.quantity
+                item.book.save()
 
             cart_items.delete()
 
@@ -101,5 +108,21 @@ def my_orders_view(request):
         'orders/my_orders.html',
         {
             'orders': orders
+        }
+    )
+
+@login_required
+def order_detail_view(request, order_id):
+
+    order = Order.objects.get(
+        id=order_id,
+        user=request.user
+    )
+
+    return render(
+        request,
+        'orders/order_detail.html',
+        {
+            'order': order
         }
     )

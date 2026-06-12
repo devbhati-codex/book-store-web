@@ -1,67 +1,144 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Orders</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<h1>My Orders</h1>
+{% block content %}
+
+<h1 class="mb-4">
+    📦 My Orders
+</h1>
 
 {% for order in orders %}
 
-<h2>
-    {{ order.order_number }}
-</h2>
+<div class="card shadow-sm mb-4 border-0">
 
-<p>
-    Total:
-    ₹{{ order.total_price }}
-</p>
+    <div class="card-body">
 
-<p>
-    Status:
-    {{ order.status }}
-</p>
+        <div class="d-flex justify-content-between flex-wrap">
 
-<p>
-    Payment:
-    {{ order.payment_method }}
-</p>
+            <div>
 
-<p>
-    Date:
-    {{ order.created_at }}
-</p>
+                <h5>
+                    Order #{{ order.order_number }}
+                </h5>
 
-<hr>
+                <p class="text-muted mb-1">
+                    {{ order.created_at }}
+                </p>
 
-{% for item in order.items.all %}
+            </div>
 
-<img
-    src="{{ item.book.image.url }}"
-    width="120"
->
+            <div class="text-end">
 
-<p>
-    {{ item.book.title }}
-</p>
+                <h5 class="text-primary">
+                    ₹{{ order.total_price }}
+                </h5>
 
-<p>
-    Qty:
-    {{ item.quantity }}
-</p>
+                {% if order.status == 'DELIVERED' %}
 
-{% endfor %}
+                <span class="badge bg-success">
+                    {{ order.status }}
+                </span>
 
-<hr><hr>
+                {% elif order.status == 'CONFIRMED' %}
+
+                <span class="badge bg-primary">
+                    {{ order.status }}
+                </span>
+
+                {% elif order.status == 'PENDING' %}
+
+                <span class="badge bg-warning text-dark">
+                    {{ order.status }}
+                </span>
+
+                {% else %}
+
+                <span class="badge bg-secondary">
+                    {{ order.status }}
+                </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p>
+            <strong>Payment Method:</strong>
+            {{ order.payment_method }}
+        </p>
+
+        <a
+            href="{% url 'order_detail' order.id %}"
+            class="btn btn-primary btn-sm mb-3"
+        >
+            View Details
+        </a>
+
+        <div class="row">
+
+            {% for item in order.items.all %}
+
+            <div class="col-md-6 mb-3">
+
+                <div class="d-flex align-items-center order-item">
+
+                    <img
+                        src="{{ item.book.image.url }}"
+                        class="order-book-image"
+                        alt="{{ item.book.title }}"
+                    >
+
+                    <div class="ms-3">
+
+                        <h6>
+                            {{ item.book.title }}
+                        </h6>
+
+                        <p class="mb-1 text-muted">
+                            Qty: {{ item.quantity }}
+                        </p>
+
+                        <p class="mb-0 text-primary">
+                            ₹{{ item.price_at_time }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
 
 {% empty %}
 
-<p>
-    No Orders Found
-</p>
+<div class="text-center py-5">
+
+    <h3>
+        No Orders Found
+    </h3>
+
+    <p class="text-muted">
+        Start shopping to place your first order.
+    </p>
+
+    <a
+        href="{% url 'book_list' %}"
+        class="btn btn-primary"
+    >
+        Browse Books
+    </a>
+
+</div>
 
 {% endfor %}
 
-</body>
-</html>
+{% endblock %}

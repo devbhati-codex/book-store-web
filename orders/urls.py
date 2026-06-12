@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import *
 
 from .views import (
     checkout_view,
@@ -25,4 +26,9 @@ urlpatterns = [
         my_orders_view,
         name='my_orders'
     ),
+    path(
+    'detail/<int:order_id>/',
+    order_detail_view,
+    name='order_detail'
+),
 ]

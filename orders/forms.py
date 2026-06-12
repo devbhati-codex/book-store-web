@@ -17,6 +17,59 @@ class CheckoutForm(forms.ModelForm):
             'payment_method'
         ]
 
+        widgets = {
+
+            'full_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter Full Name'
+                }
+            ),
+
+            'phone': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '10 Digit Phone Number'
+                }
+            ),
+
+            'address': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 3,
+                    'placeholder': 'Enter Full Address'
+                }
+            ),
+
+            'city': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'City'
+                }
+            ),
+
+            'state': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'State'
+                }
+            ),
+
+            'pincode': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '6 Digit Pincode'
+                }
+            ),
+
+            'payment_method': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+
+        }
+
     def clean_phone(self):
 
         phone = self.cleaned_data['phone']

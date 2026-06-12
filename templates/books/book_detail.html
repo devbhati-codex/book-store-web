@@ -1,44 +1,94 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ book.title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<img
-    src="{{ book.image.url }}"
-    width="250"
->
+{% block content %}
 
-<p>
-    Author:
-    {{ book.author }}
-</p>
+<div class="row g-5">
 
-<p>
-    Category:
-    {{ book.category }}
-</p>
+    <div class="col-lg-4">
+        <div class="book-card">
 
-<p>
-    Price:
-    ₹{{ book.price }}
-</p>
+            <img
+                src="{{ book.image.url }}"
+                class="img-fluid detail-image"
+                alt="{{ book.title }}"
+            >
 
-<p>
-    Stock:
-    {{ book.stock }}
-</p>
+        </div>
 
-<p>
-    {{ book.description }}
-</p>
+    </div>
 
-<a href="{% url 'add_to_cart' book.id %}">
-    <button>
-        Add To Cart
-    </button>
-</a>
+    <div class="col-lg-8">
 
-</body>
-</html>
+        <span class="badge bg-primary mb-3">
+            {{ book.category }}
+        </span>
+
+        <h1 class="mb-3">
+            {{ book.title }}
+        </h1>
+
+        <h5 class="text-muted mb-4">
+            By {{ book.author }}
+        </h5>
+
+        <h2 class="text-primary mb-3">
+            ₹{{ book.price }}
+        </h2>
+
+        {% if book.stock > 0 %}
+
+        <span class="badge bg-success fs-6 mb-4">
+            In Stock ({{ book.stock }})
+        </span>
+
+        {% else %}
+
+        <span class="badge bg-danger fs-6 mb-4">
+            Out Of Stock
+        </span>
+
+        {% endif %}
+
+        <div class="card border-0 shadow-sm mt-4">
+
+            <div class="card-body">
+
+                <h4>
+                    Description
+                </h4>
+
+                <p class="book-description mb-0">
+                    {{ book.description }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="mt-4 d-flex gap-3 flex-wrap">
+
+            {% if book.stock > 0 %}
+
+            <a
+                href="{% url 'add_to_cart' book.id %}"
+                class="btn btn-primary btn-lg"
+            >
+                🛒 Add To Cart
+            </a>
+
+            {% endif %}
+
+            <a
+                href="{% url 'book_list' %}"
+                class="btn btn-outline-dark btn-lg"
+            >
+                ← Back To Books
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

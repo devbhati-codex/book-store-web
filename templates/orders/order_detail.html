@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    📦 Order Details
+</h1>
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-body">
+
+        <h4>
+            Order #{{ order.order_number }}
+        </h4>
+
+        <hr>
+
+        <p>
+            <strong>Status:</strong>
+            {{ order.status }}
+        </p>
+
+        <p>
+            <strong>Payment:</strong>
+            {{ order.payment_method }}
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            {{ order.created_at }}
+        </p>
+
+        <hr>
+
+        <h5>
+            Shipping Address
+        </h5>
+
+        <p>
+            {{ order.full_name }}
+        </p>
+
+        <p>
+            {{ order.phone }}
+        </p>
+
+        <p>
+            {{ order.address }}
+        </p>
+
+        <p>
+            {{ order.city }},
+            {{ order.state }}
+            -
+            {{ order.pincode }}
+        </p>
+
+        <hr>
+
+        <h5>
+            Books Ordered
+        </h5>
+
+        {% for item in order.items.all %}
+
+        <div class="d-flex justify-content-between border-bottom py-2">
+
+            <div>
+
+                {{ item.book.title }}
+
+                ×
+
+                {{ item.quantity }}
+
+            </div>
+
+            <div>
+
+                ₹{{ item.price_at_time }}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <hr>
+
+        <h4 class="text-primary">
+
+            Total:
+            ₹{{ order.total_price }}
+
+        </h4>
+
+        <a
+            href="{% url 'my_orders' %}"
+            class="btn btn-secondary mt-3"
+        >
+            Back To Orders
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

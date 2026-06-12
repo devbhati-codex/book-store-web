@@ -1,0 +1,173 @@
+  {% extends 'base.html' %}
+
+{% block content %}
+
+<section class="hero-section text-center">
+
+    <h1 class="hero-title">
+        Discover Your Next Favorite Book
+    </h1>
+
+    <p class="hero-subtitle">
+        Explore thousands of books across different categories.
+    </p>
+
+    <a
+        href="{% url 'book_list' %}"
+        class="btn btn-primary btn-lg"
+    >
+        Browse Books
+    </a>
+
+</section>
+
+<div class="section-header">
+
+    <h2>📂 Categories</h2>
+
+    <a
+        href="{% url 'book_list' %}"
+        class="view-all"
+    >
+        View All →
+    </a>
+
+</div>
+
+<div class="category-pills">
+
+    {% for category in categories %}
+
+    <a
+        href="{% url 'book_list' %}?category={{ category.id }}"
+        class="category-pill"
+    >
+        {{ category.name }}
+    </a>
+
+    {% endfor %}
+
+</div>
+
+<!-- TOP 10 -->
+
+<div class="section-header">
+
+    <h2>🔥 Top 10 Books</h2>
+
+</div>
+
+<div class="horizontal-scroll">
+
+    {% for book in top10_books %}
+
+    <div class="scroll-card">
+
+        <img
+            src="{{ book.image.url }}"
+            class="book-image"
+        >
+
+        <h5>{{ book.title }}</h5>
+
+        <p>{{ book.author }}</p>
+
+        <p class="price">
+            ₹{{ book.price }}
+        </p>
+
+        <a
+            href="{% url 'book_detail' book.slug %}"
+            class="btn btn-primary btn-sm w-100"
+        >
+            View
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- FEATURED -->
+
+<div class="section-header">
+
+    <h2>⭐ Featured Books</h2>
+
+</div>
+
+<div class="horizontal-scroll">
+
+    {% for book in featured_books %}
+
+    <div class="scroll-card">
+
+        <img
+            src="{{ book.image.url }}"
+            class="book-image"
+        >
+
+        <h5>{{ book.title }}</h5>
+
+        <p>{{ book.author }}</p>
+
+        <p class="price">
+            ₹{{ book.price }}
+        </p>
+
+        <a
+            href="{% url 'book_detail' book.slug %}"
+            class="btn btn-success btn-sm w-100"
+        >
+            View
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- NEW ARRIVALS -->
+
+<div class="section-header">
+
+    <h2>🆕 New Arrivals</h2>
+
+</div>
+
+<div class="horizontal-scroll">
+
+    {% for book in new_arrivals %}
+
+    <div class="scroll-card">
+
+        <img
+            src="{{ book.image.url }}"
+            class="book-image"
+        >
+
+        <h5>{{ book.title }}</h5>
+
+        <p>{{ book.author }}</p>
+
+        <p class="price">
+            ₹{{ book.price }}
+        </p>
+
+        <a
+            href="{% url 'book_detail' book.slug %}"
+            class="btn btn-dark btn-sm w-100"
+        >
+            View
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+

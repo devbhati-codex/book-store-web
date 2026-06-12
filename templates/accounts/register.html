@@ -1,25 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<h1>Register Page</h1>
+{% block content %}
 
-<form method="POST">
-    {% csrf_token %}
-    
-    {{ form.errors }}
+<div class="row justify-content-center">
 
+    <div class="col-md-6 col-lg-5">
 
-    {{ form.as_p }}
+        <div class="card shadow-sm border-0">
 
-    <button type="submit">
-        Register
-    </button>
+            <div class="card-body p-4">
 
-</form>
+                <h2 class="text-center mb-4">
+                    📝 Create Account
+                </h2>
 
-</body>
-</html>
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {{ form.errors }}
+
+                    {{ form.as_p }}
+
+                    <button
+                        type="submit"
+                        class="btn btn-success w-100"
+                    >
+                        Register
+                    </button>
+
+                </form>
+
+                <hr>
+
+                <p class="text-center mb-0">
+
+                    Already have an account?
+
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

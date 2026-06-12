@@ -1,4 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404
+)
+
 from django.contrib.auth.decorators import login_required
 
 from books.models import Book
@@ -13,6 +18,14 @@ def add_to_cart(request, book_id):
         id=book_id
     )
 
+    # Out of Stock Protection
+    if book.stock <= 0:
+
+        return redirect(
+            'book_detail',
+            slug=book.slug
+        )
+
     cart, created = Cart.objects.get_or_create(
         user=request.user
     )
@@ -23,8 +36,11 @@ def add_to_cart(request, book_id):
     )
 
     if not created:
-        cart_item.quantity += 1
-        cart_item.save()
+
+        if cart_item.quantity < book.stock:
+
+            cart_item.quantity += 1
+            cart_item.save()
 
     return redirect(
         'book_detail',
@@ -61,6 +77,7 @@ def cart_view(request):
         }
     )
 
+
 @login_required
 def increase_quantity(request, item_id):
 
@@ -70,8 +87,10 @@ def increase_quantity(request, item_id):
         cart__user=request.user
     )
 
-    item.quantity += 1
-    item.save()
+    if item.quantity < item.book.stock:
+
+        item.quantity += 1
+        item.save()
 
     return redirect('cart')
 
@@ -95,6 +114,7 @@ def decrease_quantity(request, item_id):
         item.delete()
 
     return redirect('cart')
+
 
 @login_required
 def remove_from_cart(request, item_id):
